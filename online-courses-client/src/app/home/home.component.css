@@ -64,3 +64,8 @@
     margin-left: 0; /* הסרת מרווח שמאל במסכים קטנים */
   }
 }
+.greeting {
+  text-align: right;
+  margin-right: 24px; /* אפשר לשנות לפי הצורך */
+  direction: rtl;
+}

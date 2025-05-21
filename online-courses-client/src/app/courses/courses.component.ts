@@ -8,11 +8,12 @@ import { AuthService } from '../core/services/auth.service';
 import { Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterLink } from '@angular/router';
+import { TruncatePipe } from "../../shared/truncate.pipe";
 
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, MatListModule, MatButtonModule, MatCardModule, RouterLink],
+  imports: [CommonModule, MatListModule, MatButtonModule, MatCardModule, RouterLink, TruncatePipe],
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.css'
 })

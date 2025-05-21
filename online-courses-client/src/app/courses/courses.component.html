@@ -10,7 +10,7 @@
   <div *ngFor="let course of courses" class="course-card">
     <h3 class="course-title">{{ course.title }}</h3>
     <p class="course-teacher">מורה: {{ course.teacherId }}</p>
-    <p class="course-desc">{{ course.description }}</p>
+    <p class="course-desc">{{ course.description | truncate:40}}</p>
     <div class="course-actions">
 
       <button mat-raised-button color="primary" (click)="joinCourse(course)" *ngIf="!isUserEnrolled(course)">הצטרף</button>
@@ -23,8 +23,3 @@
   </div>
 </div>
 
-<div class="admin-button-container" *ngIf="isTeacher()">
-  <button mat-raised-button color="accent" [routerLink]="['/admin/courses']">
-    ניהול קורסים
-  </button>
-</div>

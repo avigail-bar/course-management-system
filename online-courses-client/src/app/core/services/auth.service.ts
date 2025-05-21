@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, tap } from 'rxjs';
+import { Observable, BehaviorSubject, tap, map } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
+import { HttpHeaders } from '@angular/common/http';
 
 export interface LoginResponse {
   token: string;
@@ -15,6 +16,8 @@ export interface LoginResponse {
 })
 export class AuthService {
   private apiUrl = 'http://localhost:3000/api/auth'; // בסיס ה-URL עבור אוטנטיקציה
+  private usersApiUrl = 'http://localhost:3000/api/users';
+
   private loggedInUserIdSubject = new BehaviorSubject<string | null>(null); // Subject לשמירת userId
   public loggedInUserId$ = this.loggedInUserIdSubject.asObservable(); // Observable לקבלת userId
   private authToken: string | null = null;
@@ -102,6 +105,13 @@ export class AuthService {
     this.loggedInUserIdSubject.next(null);
     this.authToken = null;
     this.userRoleSubject.next(null); // איפוס ה-Subject של הרול
+  }
+  getUserNameById(userId: string): Observable<string> {
+    const token = this.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    // שימי לב לשימוש ב-usersApiUrl
+    return this.http.get<{ name: string }>(`${this.usersApiUrl}/${userId}`, { headers })
+      .pipe(map(response => response.name));
   }
 
   // פונקציות נוספות לשמירת טוקן, קבלת טוקן, בדיקת סטטוס התחברות וכו' יכולות לבוא כאן
