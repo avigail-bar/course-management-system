@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+
+html, body { height: 100%; }
+body, input, button, textarea {
+  font-family: 'Heebo', sans-serif;
+}
+mat-icon {
+  font-family: 'Material Icons' !important;
+}
+
+h1 {
+  font-family: 'Heebo', sans-serif;
+  font-weight: 700px;
+}
+/* הבטחת מסגרת תמידית לכל input */
+.mat-mdc-form-field {
+  --mdc-outlined-text-field-outline-color: #ffffff;
+  --mdc-outlined-text-field-focus-outline-color: #3f51b5; /* צבע כחול כשלוחצים */
+}
+
+/* תצוגה תמידית למסגרת */
+.mat-mdc-text-field--outlined .mdc-notched-outline {
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-color: #ffffff !important;
+}

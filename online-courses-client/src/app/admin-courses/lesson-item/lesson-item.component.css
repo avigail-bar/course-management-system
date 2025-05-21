@@ -1,0 +1,31 @@
+.lesson-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    color: #222; /* צבע טקסט כהה */
+  }
+  
+  .lesson-item span {
+    font-size: 16px;
+    color: #222; /* צבע טקסט כהה */
+    transition: color 0.2s;
+  }
+  
+  .lesson-item .actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .lesson-item button {
+    color: #1976d2; /* כחול של material */
+  }
+  
+  .lesson-item button[mat-icon-button][color="warn"] {
+    color: #d32f2f; /* אדום למחיקה */
+  }
+  
+  .lesson-item span:hover {
+    color: #1976d2; /* צבע שונה ב-hover */
+    cursor: pointer;
+  }

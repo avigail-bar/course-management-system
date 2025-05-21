@@ -1,0 +1,66 @@
+.home-container {
+  display: flex;
+  justify-content: center; /* מרכוז אופקי */
+  align-items: center; /* מרכוז אנכי */
+  min-height: calc(100vh - 64px);
+  padding: 20px;
+  text-align: right; /* יישור טקסט לימין עבור עברית */
+  direction: rtl; /* כיוון מימין לשמאל עבור עברית */
+}
+
+.welcome-section {
+  max-width: 600px;
+  margin-bottom: 40px;
+  margin-left: 40px; /* הוספת מרווח משמאל לטקסט כשהתמונה בצד שמאל */
+}
+
+.welcome-section h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  color: var(--mdc-theme-primary);
+}
+
+.welcome-section .description {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.welcome-section button {
+  font-size: 1.2em;
+  padding: 15px 30px;
+}
+
+.image-section {
+  max-width: 400px;
+  margin-right: 40px; /* הוספת מרווח מימין לתמונה כשהיא בצד שמאל */
+}
+
+.image-section img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* עבור מסכים קטנים - מעבירים את התמונה מתחת לטקסט */
+@media (max-width: 768px) {
+  .home-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: right; /* שמירה על יישור לימין */
+    direction: rtl; /* שמירה על כיוון מימין לשמאל */
+  }
+
+  .image-section {
+    margin-left: 0;
+    margin-top: 40px;
+    max-width: 80%;
+    margin-right: 0; /* הסרת מרווח ימין במסכים קטנים */
+  }
+
+  .welcome-section {
+    margin-bottom: 20px;
+    margin-left: 0; /* הסרת מרווח שמאל במסכים קטנים */
+  }
+}
