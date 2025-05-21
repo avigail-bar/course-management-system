@@ -1,6 +1,0 @@
-import { bootstrapApplication } from '@angular/platform-browser';
-import { AppComponent } from './app/app.component';  // ודא שהיבאת את רכיב AppComponent
-import { appConfig } from './app/app.config';
-import { provideHttpClient } from '@angular/common/http';
-
-bootstrapApplication(AppComponent,appConfig).catch(err => console.error(err));
