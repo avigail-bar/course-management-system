@@ -4,7 +4,8 @@
 
   <button mat-button routerLink="/courses">קורסים</button>
   <button mat-button routerLink="/register">הרשמה</button>
-  <button mat-button routerLink="/login">התחברות</button>
+  <button mat-button routerLink="/login" *ngIf="!isLoggedIn">התחברות</button>
+  <button mat-button (click)="logout()" *ngIf="isLoggedIn">התנתק</button>
   <button mat-button routerLink="/">בית</button>
 </mat-toolbar>
 <div class="container">

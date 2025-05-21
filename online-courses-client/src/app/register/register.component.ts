@@ -120,7 +120,8 @@ import { MatCardModule } from '@angular/material/card';
     MatFormFieldModule,
     MatButtonModule,
     MatIconModule,
-    MatCardModule
+    MatCardModule,
+    RouterLink 
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'

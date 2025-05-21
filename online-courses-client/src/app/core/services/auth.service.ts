@@ -1,8 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, tap, map } from 'rxjs';
+import { Observable, BehaviorSubject, tap, map, filter, take, switchMap } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 export interface LoginResponse {
   token: string;
@@ -19,12 +20,13 @@ export class AuthService {
   private usersApiUrl = 'http://localhost:3000/api/users';
 
   private loggedInUserIdSubject = new BehaviorSubject<string | null>(null); // Subject לשמירת userId
-  public loggedInUserId$ = this.loggedInUserIdSubject.asObservable(); // Observable לקבלת userId
-  private authToken: string | null = null;
+  public loggedInUserId$ = this.loggedInUserIdSubject.asObservable();
+  private authTokenSubject = new BehaviorSubject<string | null>(null);
+  public authToken$ = this.authTokenSubject.asObservable();
   private userRoleSubject = new BehaviorSubject<string | null>(null); // Subject לשמירת תפקיד המשתמש
   public userRole$ = this.userRoleSubject.asObservable(); // Observable לקבלת תפקיד המשתמש
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router,) {
     this.loadTokenAndUserIdAndRoleFromLocalStorage();
   }
 
@@ -37,7 +39,7 @@ export class AuthService {
         this.loggedInUserIdSubject.next(storedUserId);
       }
       if (storedToken) {
-        this.authToken = storedToken;
+        this.authTokenSubject.next(storedToken);
       }
       if (storedRole) {
         this.userRoleSubject.next(storedRole);
@@ -54,7 +56,7 @@ export class AuthService {
         localStorage.setItem('userRole', response.role); // שמירה של תפקיד המשתמש
       }
       this.loggedInUserIdSubject.next(response.userId);
-      this.authToken = response.token;
+      this.authTokenSubject.next(response.token);
       this.userRoleSubject.next(response.role); // עדכון ה-Subject עם הרול
     })
   );
@@ -73,7 +75,7 @@ export class AuthService {
             localStorage.setItem('userRole', response.role); // שמירת הרול בלוקל סטורג'
           }
           this.loggedInUserIdSubject.next(response.userId);
-          this.authToken = response.token;
+          this.authTokenSubject.next(response.token);
           this.userRoleSubject.next(response.role); // עדכון ה-Subject עם הרול
         }
       })
@@ -85,11 +87,11 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    return this.authToken;
+    return this.authTokenSubject.value;
   }
 
   get isLoggedIn(): boolean {
-    return !!this.authToken;
+    return !!this.authTokenSubject.value;
   }
 
   getRole(): string | null {
@@ -103,16 +105,22 @@ export class AuthService {
       localStorage.removeItem('userRole'); // הסרת הרול מלוקל סטורג' בעת התנתקות
     }
     this.loggedInUserIdSubject.next(null);
-    this.authToken = null;
+    this.authTokenSubject.next(null);
     this.userRoleSubject.next(null); // איפוס ה-Subject של הרול
-  }
-  getUserNameById(userId: string): Observable<string> {
-    const token = this.getToken();
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    // שימי לב לשימוש ב-usersApiUrl
-    return this.http.get<{ name: string }>(`${this.usersApiUrl}/${userId}`, { headers })
-      .pipe(map(response => response.name));
-  }
+    this.router.navigate(['/login']);
+    }
+
+    getUserNameById(userId: string): Observable<string> {
+      return this.authToken$.pipe(
+        filter((token): token is string => token !== null), // המתן עד שהטוקן אינו null
+        take(1), // קח את הערך הראשון שעונה על התנאי והשלם
+        switchMap(token => { // לאחר שיש טוקן, בצע את קריאת ה-HTTP
+          const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+          return this.http.get<{ name: string }>(`${this.usersApiUrl}/${userId}`, { headers })
+            .pipe(map(response => response.name));
+        })
+      );
+    }
 
   // פונקציות נוספות לשמירת טוקן, קבלת טוקן, בדיקת סטטוס התחברות וכו' יכולות לבוא כאן
 }

@@ -1,4 +1,5 @@
-<h2 class="greeting">שלום, {{ userName | capitalizeFirst }}!</h2>
+<h2 class="greeting" *ngIf="authService.isLoggedIn">שלום, {{ userName | capitalizeFirst }}!</h2>
+
 <div class="home-container">
     <div class="welcome-section">
         <h1>ברוכים הבאים לאתר הקורסים האונליין שלנו!</h1>
