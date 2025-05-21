@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('authToken', response.token);
         }
 
-        this.router.navigate(['/courses']);
+        this.router.navigate(['']);
       },
       error: (error) => {
         console.error('Login failed', error);

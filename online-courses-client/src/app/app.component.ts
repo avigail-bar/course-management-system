@@ -3,6 +3,7 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from './core/services/auth.service';
 
 
 
@@ -15,4 +16,9 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class AppComponent {
   title = 'online-courses-client';
+
+  constructor(private authService: AuthService) {}
+  logout(): void {
+    this.authService.logout();
+  }
 }
