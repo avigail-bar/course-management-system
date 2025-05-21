@@ -1,0 +1,57 @@
+<mat-card>
+  <mat-card-title>התחברות</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline">
+        <mat-label>אימייל</mat-label>
+        <input matInput type="email" formControlName="email">
+        <mat-error *ngIf="emailControl.invalid && (emailControl.dirty || emailControl.touched)">
+          <span *ngIf="emailControl.errors?.['required']">האימייל נדרש.</span>
+          <span *ngIf="emailControl.errors?.['email']">האימייל אינו בפורמט תקין.</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>סיסמה</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" aria-label="הצג/הסתר סיסמה">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="passwordControl.invalid && (passwordControl.dirty || passwordControl.touched)">
+          <span>הסיסמה נדרשת.</span>
+        </mat-error>
+      </mat-form-field>
+
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">התחבר</button>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <p>
+      עדיין אין לך חשבון? <a [routerLink]="['/register']">הירשם כאן</a>
+    </p>
+  </mat-card-actions>
+</mat-card>
+
+
+<style>
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+
+  mat-card {
+    width: 400px;
+    margin: 50px auto;
+  }
+
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  button {
+    width: 100%;
+  }
+</style>

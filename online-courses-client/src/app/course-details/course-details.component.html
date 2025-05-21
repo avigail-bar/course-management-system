@@ -1,0 +1,63 @@
+<div class="course-details-container" *ngIf="course">
+  <mat-card>
+    <mat-card-title style="text-align: right;">{{ course.title }}</mat-card-title>
+    <mat-card-subtitle style="text-align: right;">מזהה קורס: {{ course.id }}</mat-card-subtitle>
+    <mat-card-content>
+      <p style="text-align: right;">{{ course.description }}</p>
+   <!-- 
+      טופס הוספת שיעור 
+      <form (ngSubmit)="addLesson()" class="add-lesson-form" *ngIf="!editingLesson">
+        <mat-form-field appearance="outline">
+          <mat-label>שם שיעור חדש</mat-label>
+          <input matInput [(ngModel)]="newLessonTitle" name="lessonTitle" required>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!newLessonTitle.trim()">הוסף שיעור</button>
+      </form>
+
+      טופס עריכת שיעור 
+      <form (ngSubmit)="updateLesson()" class="edit-lesson-form" *ngIf="editingLesson">
+        <mat-form-field appearance="outline">
+          <mat-label>עריכת שם שיעור</mat-label>
+          <input matInput [(ngModel)]="editingLesson.title" name="editLessonTitle" required>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">שמור</button>
+        <button mat-button type="button" (click)="cancelEditLesson()">ביטול</button>
+      </form>
+    -->
+      <mat-list *ngIf="lessons && lessons.length > 0">
+        <h3 mat-subheader style="text-align: right;">שיעורים בקורס זה:</h3>
+        <mat-list-item *ngFor="let lesson of lessons">
+          <div class="lesson-row">
+            <div class="lesson-info">
+              <mat-icon matListItemIcon>book</mat-icon>
+              <span class="lesson-title">{{ lesson.title }}</span>
+              <span class="lesson-id">[{{ lesson.id }}]</span>
+            </div>
+            <div class="lesson-actions">
+              <!--
+              <button mat-icon-button color="primary" (click)="startEditLesson(lesson)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              
+              <button mat-icon-button color="warn" *ngIf="lesson.id !== undefined"(click)="deleteLesson(courseId!, lesson.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+              -->
+            </div>
+          </div>
+        </mat-list-item>
+      </mat-list>
+      <div *ngIf="!lessons || lessons.length === 0">
+        <p style="text-align: right;">אין שיעורים בקורס זה כרגע.</p>
+      </div>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button routerLink="/courses">חזרה לרשימת הקורסים</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<div *ngIf="!course">
+  <p>טוען פרטי קורס...</p>
+</div>
